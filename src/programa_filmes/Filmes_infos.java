@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Filmes_infos extends Filmes implements Funcionalidades {
 	
@@ -17,7 +19,6 @@ public class Filmes_infos extends Filmes implements Funcionalidades {
 		this.nota = nota;
 		filmes = new HashMap<>();
 		ordemInsercao = new ArrayList<>();
-		
 	}
 		
 	
@@ -53,7 +54,7 @@ public class Filmes_infos extends Filmes implements Funcionalidades {
 	@Override
 	public void listar() {
 		for (String titulo : ordemInsercao) {
-			nota = filmes.get(titulo);
+			Integer nota = filmes.get(titulo);
 			System.out.println("Título do filme: " + titulo + " - Nota: " + nota);
 		}
 	}
@@ -61,11 +62,15 @@ public class Filmes_infos extends Filmes implements Funcionalidades {
 	@Override
 	public int listar_melhores() {
 		System.out.println("Melhores filmes da sua lista: ");
-		for (String titulo : ordemInsercao) {
-			nota = filmes.get(titulo);
-			if (nota == 10) {
-				System.out.println("Filme: " + titulo);
-			}
+		Set<String> titulosUnicos = ordemInsercao.stream()
+                .distinct()
+                .collect(Collectors.toSet());
+        
+        for (String titulo : titulosUnicos) {
+            nota = filmes.get(titulo);
+            if (nota == 10) {
+                System.out.println("Filme: " + titulo);
+            }
 		}
 		return 0;
 	}
